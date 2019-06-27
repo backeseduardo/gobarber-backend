@@ -12,10 +12,12 @@
     "create-redis-db": "docker run --name redisbarber -p 6379:6379 -d -t redis:alpine"
   },
   "dependencies": {
+    "@sentry/node": "5.4.3",
     "bcryptjs": "^2.4.3",
     "bee-queue": "^1.2.2",
     "date-fns": "^2.0.0-beta.1",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "express-handlebars": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.1",
@@ -25,6 +27,7 @@
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.8.12",
+    "youch": "^2.0.10",
     "yup": "^0.27.0"
   },
   "devDependencies": {
