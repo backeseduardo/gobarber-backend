@@ -1,6 +1,8 @@
 import User from '../models/User';
 import File from '../models/File';
 
+import Cache from '../../lib/Cache';
+
 class UserController {
   async store(req, res) {
     const userExists = await User.findOne({
@@ -15,11 +17,15 @@ class UserController {
 
     const { id, name, email, provider } = await User.create(req.body);
 
+    if (provider) {
+      Cache.invalidate('providers');
+    }
+
     return res.json({ id, name, email, provider });
   }
 
   async update(req, res) {
-    const { email, oldPassword, password } = req.body;
+    const { name, email, oldPassword, password } = req.body;
 
     const user = await User.findByPk(req.userId);
 
@@ -41,9 +47,9 @@ class UserController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    await user.update(req.body);
+    await user.update({ name, email, password });
 
-    const { id, name, avatar } = await User.findByPk(req.userId, {
+    const { id, avatar } = await User.findByPk(req.userId, {
       include: [
         {
           model: File,
